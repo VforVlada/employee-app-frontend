@@ -1,0 +1,41 @@
+<h1 mat-dialog-title>{{ action }} Employee</h1>
+<div mat-dialog-content>
+  <div *ngIf="action !== 'Delete'; else elseTemplate">
+    <mat-form-field class="mat-input">
+        <mat-label>Employee's name</mat-label>
+        <input matInput placeholder="Name" [(ngModel)]="localData.name" required>
+    </mat-form-field>
+    <mat-form-field class="mat-input">
+        <mat-label>Employee's salary</mat-label>
+        <input type="number" matInput placeholder="Salary" [(ngModel)]="localData.salary" required>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Employee's manager</mat-label>
+        <mat-select [(ngModel)]="localData.managerId" required>
+          <mat-option *ngFor="let manager of managers" [value]="manager.id">
+            {{ manager.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Employee's department</mat-label>
+        <mat-select [(ngModel)]="localData.departmentId" required>
+          <mat-option *ngFor="let department of departments" [value]="department.id">
+            {{ department.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  </div>
+  <ng-template #elseTemplate>
+    Are you sure you want to delete <b>{{localData.name}}</b>?
+  </ng-template>
+</div>
+<div mat-dialog-actions class="buttons">
+    <button class="button"
+            [ngClass]="{'background-color': action === 'Delete'}"
+            mat-button
+    (click)="doAction()" [disabled]="isItemEmpty()">{{action}}</button>
+    <button mat-button
+            (click)="closeDialog()"
+            mat-flat-button>Cancel</button>
+</div>
